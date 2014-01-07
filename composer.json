@@ -1,0 +1,20 @@
+{
+  "name": "kartsims/easysvg",
+  "description": "PHP library to generate SVG XML",
+  "license": "MIT",
+  "homepage": "http://kartsims.github.com/easysvg/",
+  "authors": [
+    {
+      "name": "Simon Tarchichi",
+      "email": "kartsims@gmail.com"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/kartsims/easysvg/tree/master",
+    "issues": "https://github.com/kartsims/easysvg/issues"
+  },
+  "minimum-stability": "beta",
+  "require": {
+    "php": ">=5.3.0"
+  }
+}

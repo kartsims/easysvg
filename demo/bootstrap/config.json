@@ -1,0 +1,32 @@
+{
+  "vars": {},
+  "css": [
+    "type.less",
+    "code.less",
+    "grid.less",
+    "tables.less",
+    "buttons.less",
+    "glyphicons.less",
+    "button-groups.less",
+    "navs.less",
+    "labels.less",
+    "badges.less",
+    "alerts.less",
+    "list-group.less",
+    "panels.less",
+    "close.less",
+    "dropdowns.less",
+    "tooltip.less",
+    "utilities.less",
+    "responsive-utilities.less",
+    "component-animations.less"
+  ],
+  "js": [
+    "tooltip.js",
+    "tab.js",
+    "affix.js",
+    "collapse.js",
+    "scrollspy.js",
+    "transition.js"
+  ]
+}
