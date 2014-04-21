@@ -64,6 +64,18 @@ class EasySVG {
     }
 
     /**
+     * Set font params (short-hand method)
+     * @param string $filepath
+     * @param integer $size   
+     * @param string $color  
+     */
+    public function setFont( $filepath, $size, $color ) {
+        $this->setFontSVG($filepath);
+        $this->setFontSize($size);
+        $this->setFontColor($color);
+    }
+
+    /**
      * Set font size for display
      * @param int $size
      * @return void
@@ -201,7 +213,7 @@ class EasySVG {
      * @param  float $y
      * @return string
      */
-    public function defTranslate($def, $x, $y=0){
+    public function defTranslate($def, $x=0, $y=0){
         return $this->defApplyMatrix($def, array(1, 0, 0, 1, $x, $y));
     }
     
@@ -233,7 +245,7 @@ class EasySVG {
      * @param  integer $y
      * @return string
      */
-    public function defScale($def, $x, $y=0){
+    public function defScale($def, $x=1, $y=1){
         return $this->defApplyMatrix($def, array($x, 0, 0, $y, 0, 0));
     }
 
