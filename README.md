@@ -2,7 +2,7 @@
 
 Generate SVG images from SVG font easily.
 
-The SVG data produced here is directly extracted from the font .svg file. This **does not use the <text> tag**.
+The SVG data produced here is directly extracted from the font .svg file. This **does not use the &lt;text&gt; tag**.
 
 ## Usage
 
