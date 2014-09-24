@@ -232,12 +232,12 @@ class EasySVG {
      * @param  boolean $is_unicode
      * @return float
      */
-    public function characterWidth( $str, $is_unicode = false ) {
+    public function characterWidth( $char, $is_unicode = false ) {
         if ($is_unicode){
-            $letter = hexdec($str);
+            $letter = hexdec($char);
         }
         else {
-            $letter = $this->_utf8ToUnicode($str);
+            $letter = $this->_utf8ToUnicode($char);
         }
 
         if (!isset($this->font->glyphs[$letter]))

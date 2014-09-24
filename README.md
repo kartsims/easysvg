@@ -67,6 +67,19 @@ Returns a SVG-formatted definition of a string. This method is used by addText m
 
 - $text : String UTF-8 encoded
 
+#### unicodeDef($code)
+
+Returns a SVG-formatted definition of an unicode character.
+
+- $code : Unicode definition (in hex format)
+
+#### characterWidth($char, $is_unicode=false)
+
+Returns the width of a character.
+
+- $char : Character
+- $is_unicode : Boolean that tells if the character is a unicode string or a UTF-8 character.
+
 #### addPath($def, $attributes=array())
 
 Add a path to the SVG data
