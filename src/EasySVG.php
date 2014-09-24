@@ -215,14 +215,14 @@ class EasySVG {
 
         $horizAdvY = $this->font->ascent + $this->font->descent;
         $fontSize =  floatval($this->font->size) / $this->font->unitsPerEm;
-        
+
         // extract character definition
         $d = $this->font->glyphs[hexdec($unicode)]->d;
 
         // transform typo from original SVG format to straight display
         $d = $this->defScale($d, $fontSize, -$fontSize);
         $d = $this->defTranslate($d, 0, $horizAdvY*$fontSize*2);
-        
+
         return $d;
     }
 
@@ -330,19 +330,6 @@ class EasySVG {
                 elseif( $i=='v' ){
                     $i = 'l';
                     $x = 0;
-                    $y = floatval( array_shift($coords) );
-
-                    // add new point's coordinates
-                    $current_point = array(
-                        $a*$x + $c*$y + $e,
-                        $b*$x + $d*$y + $f,
-                    );
-                    $new_coords = array_merge($new_coords, $current_point);
-                }
-
-                // convert short-hand quadratic bezier curve (relative)
-                elseif( $i=='t' ){
-                    $x = floatval( array_shift($coords) );
                     $y = floatval( array_shift($coords) );
 
                     // add new point's coordinates
