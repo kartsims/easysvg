@@ -139,7 +139,7 @@ class EasySVG {
     }
 
     /**
-     * [addPath description]
+     * Add a path to the SVG
      * @param string $def
      * @param array $attributes
      * @return SimpleXMLElement
@@ -154,7 +154,7 @@ class EasySVG {
     }
 
     /**
-     * [addText description]
+     * Add a text to the SVG
      * @param string $def
      * @param float $x
      * @param float $y
@@ -203,6 +203,27 @@ class EasySVG {
             $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize;
         }
         return implode(' ', $def);
+    }
+
+
+    /**
+     * Function takes unicode character and returns the UTF-8 equivalent
+     * @param  string $str
+     * @return string
+     */
+    public function unicodeDef( $unicode ) {
+
+        $horizAdvY = $this->font->ascent + $this->font->descent;
+        $fontSize =  floatval($this->font->size) / $this->font->unitsPerEm;
+        
+        // extract character definition
+        $d = $this->font->glyphs[hexdec($unicode)]->d;
+
+        // transform typo from original SVG format to straight display
+        $d = $this->defScale($d, $fontSize, -$fontSize);
+        $d = $this->defTranslate($d, 0, $horizAdvY*$fontSize*2);
+        
+        return $d;
     }
 
     
@@ -296,6 +317,13 @@ class EasySVG {
                     $i = 'l';
                     $x = floatval( array_shift($coords) );
                     $y = 0;
+
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
                 }
 
                 // convert vertical lineto (relative)
@@ -303,21 +331,67 @@ class EasySVG {
                     $i = 'l';
                     $x = 0;
                     $y = floatval( array_shift($coords) );
+
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
+                }
+
+                // convert short-hand quadratic bezier curve (relative)
+                elseif( $i=='t' ){
+                    $x = floatval( array_shift($coords) );
+                    $y = floatval( array_shift($coords) );
+
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
+                }
+
+                // convert quadratic bezier curve (relative)
+                elseif( $i=='q' ){
+                    $x = floatval( array_shift($coords) );
+                    $y = floatval( array_shift($coords) );
+
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
+
+                    // same for 2nd point
+                    $x = floatval( array_shift($coords) );
+                    $y = floatval( array_shift($coords) );
+
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
                 }
 
                 // every other commands
-                // @TODO: handle 'a' (elliptic arc curve) commands
+                // @TODO: handle 'a,c,s' (elliptic arc curve) commands
+                // cf. http://www.w3.org/TR/SVG/paths.html#PathDataCurveCommands
                 else{
                     $x = floatval( array_shift($coords) );
                     $y = floatval( array_shift($coords) );
+    
+                    // add new point's coordinates
+                    $current_point = array(
+                        $a*$x + $c*$y + $e,
+                        $b*$x + $d*$y + $f,
+                    );
+                    $new_coords = array_merge($new_coords, $current_point);
                 }
 
-                // calculate new point's coordinates
-                $current_point = array(
-                    $a*$x + $c*$y + $e,
-                    $b*$x + $d*$y + $f,
-                );
-                $new_coords = array_merge($new_coords, $current_point);
 
             }
 
