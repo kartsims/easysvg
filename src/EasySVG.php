@@ -184,7 +184,7 @@ class EasySVG {
 
         $horizAdvX = 0;
         $horizAdvY = $this->font->ascent + $this->font->descent;
-        $fontSize =  floatval($this->font->size) / $this->font->unitsPerEm;
+        $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
         $text = $this->_utf8ToUnicode($text);
         
         for($i = 0; $i < count($text); $i++) {
@@ -224,6 +224,27 @@ class EasySVG {
         $d = $this->defTranslate($d, 0, $horizAdvY*$fontSize*2);
 
         return $d;
+    }
+
+    /**
+     * Returns the character width, as set in the font file
+     * @param  string  $str
+     * @param  boolean $is_unicode
+     * @return float
+     */
+    public function characterWidth( $str, $is_unicode = false ) {
+        if ($is_unicode){
+            $letter = hexdec($str);
+        }
+        else {
+            $letter = $this->_utf8ToUnicode($str);
+        }
+
+        if (!isset($this->font->glyphs[$letter]))
+            return NULL;
+
+        $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
+        return $this->font->glyphs[$letter]->horizAdvX * $fontSize;
     }
 
     
