@@ -14,28 +14,38 @@ require '../src/EasySVG.php';
 
             <h1>EasySVG demo</h1>
             
-            <h2>Text example</h2>
             <?php
+            $text = "Simple text display\netc.";
+
             $svg = new EasySVG();
             $svg->setFontSVG("paris-bold-webfont.svg");
             $svg->setFontSize(100);
             $svg->setFontColor('#000000');
-            $svg->addText("Simple text display");
-            $svg->addAttribute("width", "800px");
-            $svg->addAttribute("height", "100px");
+            $svg->setLineHeight(1.2);
+            $svg->addText($text);
+            // set width/height according to text
+            list($textWidth, $textHeight) = $svg->textDimensions($text);
+            $svg->addAttribute("width", $textWidth."px");
+            $svg->addAttribute("height", $textHeight."px");
             echo $svg->asXML();
             ?>
+            <br/><br/><br/>
             <pre>
-                $svg = new EasySVG();
-                $svg->setFontSVG("paris-bold-webfont.svg");
-                $svg->setFontSize(100);
-                $svg->setFontColor('#000000');
-                $svg->addText("Simple text display");
-                $svg->addAttribute("width", "800px");
-                $svg->addAttribute("height", "300px");
-                echo $svg->asXML();</pre>
-            <hr>
-            <textarea style="width:100%;height:200px;"><?php echo $svg->asXML(); ?></textarea>
+    $text = "Simple text display\netc.";
+
+    $svg = new EasySVG();
+    $svg->setFontSVG("paris-bold-webfont.svg");
+    $svg->setFontSize(100);
+    $svg->setFontColor('#000000');
+    $svg->setLineHeight(1.2);
+    $svg->addText($text);
+    // set width/height according to text
+    list($textWidth, $textHeight) = $svg->textDimensions($text);
+    $svg->addAttribute("width", $textWidth."px");
+    $svg->addAttribute("height", $textHeight."px");
+    echo $svg->asXML();</pre>
+            <br/><br/><br/>
+            <textarea style="width:100%;height:500px;"><?php echo $svg->asXML(); ?></textarea>
             
         </div>
     </div>

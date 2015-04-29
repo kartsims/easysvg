@@ -24,6 +24,7 @@ class EasySVG {
         $this->font->glyphs = array();
         $this->font->size = 20;
         $this->font->color = '#000000';
+        $this->font->lineHeight = 1;
 
         $this->clearSVG();
     }
@@ -91,6 +92,15 @@ class EasySVG {
      */
     public function setFontColor( $color ) {
         $this->font->color = $color;
+    }
+
+    /**
+     * Set the line height from default (1) to custom value
+     * @param  float $value
+     * @return void
+     */
+    public function setLineHeight( $value ) {
+        $this->font->lineHeight = $value;
     }
 
     /**
@@ -186,9 +196,17 @@ class EasySVG {
         $horizAdvY = $this->font->ascent + $this->font->descent;
         $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
         $text = $this->_utf8ToUnicode($text);
-        
+
         for($i = 0; $i < count($text); $i++) {
+
             $letter = $text[$i];
+
+            // line break support (10 is unicode for linebreak)
+            if($letter==10){
+                $horizAdvX = 0;
+                $horizAdvY += $this->font->lineHeight * ( $this->font->ascent + $this->font->descent );
+                continue;
+            }
             
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
@@ -199,10 +217,49 @@ class EasySVG {
             
             $def[] = $d;
 
-            // placement de la prochaine lettre
+            // next letter's position
             $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize;
         }
         return implode(' ', $def);
+    }
+
+
+    /**
+     * Function takes UTF-8 encoded string and size, returns width and height of the whole text
+     * @param string $text UTF-8 encoded text
+     * @return array ($width, $height)
+     */
+    public function textDimensions($text) {
+        $def = array();
+
+        $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
+        $text = $this->_utf8ToUnicode($text);
+
+        $lineWidth = 0;
+        $lineHeight = ( $this->font->ascent + $this->font->descent ) * $fontSize * 2;
+
+        $width = 0;
+        $height = $lineHeight;
+
+        for($i = 0; $i < count($text); $i++) {
+
+            $letter = $text[$i];
+
+            // line break support (10 is unicode for linebreak)
+            if($letter==10){
+                $width = $lineWidth>$width ? $lineWidth : $width;
+                $height += $lineHeight * $this->font->lineHeight;
+                $lineWidth = 0;
+                continue;
+            }
+
+            $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize;
+        }
+
+        // only keep the widest line's width
+        $width = $lineWidth>$width ? $lineWidth : $width;
+
+        return array($width, $height);
     }
 
 

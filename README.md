@@ -1,3 +1,7 @@
+> **May 2015 Update**
+> Added support for linebreaks
+> Method to find the width and height of a string with the given SVG font
+
 # EasySVG for PHP
 
 Generate SVG images from SVG font easily.
@@ -64,6 +68,12 @@ Applies a scale transformation to definition. This basically applies matrix calc
 #### textDef($text)
 
 Returns a SVG-formatted definition of a string. This method is used by addText method.
+
+- $text : String UTF-8 encoded
+
+#### textDimensions($text)
+
+Returns the width and height of a string. This method is also used to set the width/height of the SVG (if none specified).
 
 - $text : String UTF-8 encoded
 
