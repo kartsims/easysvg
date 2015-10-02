@@ -1,9 +1,3 @@
-> **May 2015 Update**
-
-> Added support for linebreaks
-
-> Method to find the width and height of a string with the given SVG font
-
 # EasySVG for PHP
 
 Generate SVG images from SVG font easily.
