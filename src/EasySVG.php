@@ -25,6 +25,7 @@ class EasySVG {
         $this->font->size = 20;
         $this->font->color = '#000000';
         $this->font->lineHeight = 1;
+        $this->font->letterSpacing = 0;
 
         $this->clearSVG();
     }
@@ -104,6 +105,15 @@ class EasySVG {
     }
 
     /**
+     * Set the letter spacing from default (0) to custom value
+     * @param  float $value
+     * @return void
+     */
+    public function setLetterSpacing( $value ) {
+        $this->font->letterSpacing = $value;
+    }
+
+    /**
      * Function takes path to SVG font (local path) and processes its xml
      * to get path representation of every character and additional
      * font parameters
@@ -142,10 +152,14 @@ class EasySVG {
                         $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
                     }
                     $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
+
+                    // save em value for letter spacing (109 is unicode for the letter 'm')
+                    if ($unicode == '109') {
+                        $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
+                    }
                 }
             }
-        }   
-
+        }
     }
 
     /**
@@ -218,7 +232,7 @@ class EasySVG {
             $def[] = $d;
 
             // next letter's position
-            $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize;
+            $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
         }
         return implode(' ', $def);
     }
@@ -253,7 +267,7 @@ class EasySVG {
                 continue;
             }
 
-            $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize;
+            $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
         }
 
         // only keep the widest line's width

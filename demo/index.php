@@ -22,6 +22,7 @@ require '../src/EasySVG.php';
             $svg->setFontSize(100);
             $svg->setFontColor('#000000');
             $svg->setLineHeight(1.2);
+            $svg->setLetterSpacing(.1);
             $svg->addText($text);
             // set width/height according to text
             list($textWidth, $textHeight) = $svg->textDimensions($text);
@@ -30,6 +31,7 @@ require '../src/EasySVG.php';
             echo $svg->asXML();
             ?>
             <br/><br/><br/>
+            <h2>PHP code</h2>
             <pre>
     $text = "Simple text display\netc.";
 
@@ -38,6 +40,7 @@ require '../src/EasySVG.php';
     $svg->setFontSize(100);
     $svg->setFontColor('#000000');
     $svg->setLineHeight(1.2);
+    $svg->setLetterSpacing(.1);
     $svg->addText($text);
     // set width/height according to text
     list($textWidth, $textHeight) = $svg->textDimensions($text);
@@ -45,6 +48,7 @@ require '../src/EasySVG.php';
     $svg->addAttribute("height", $textHeight."px");
     echo $svg->asXML();</pre>
             <br/><br/><br/>
+            <h2>SVG data</h2>
             <textarea style="width:100%;height:500px;"><?php echo $svg->asXML(); ?></textarea>
             
         </div>

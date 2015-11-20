@@ -4,15 +4,35 @@ Generate SVG images from SVG font easily.
 
 The SVG data produced here is directly extracted from the font .svg file. This **does not use the &lt;text&gt; tag**.
 
-## Usage
+## Simple usage
 
-	require 'easySVG.php';
-	$svg = new EasySVG();
-	$svg->setFont("paris-bold-webfont.svg", 100, "#000000");
-	$svg->addText("Simple text display");
-	$svg->addAttribute("width", "800px");
-	$svg->addAttribute("height", "100px");
-	echo $svg->asXML();
+    require 'easySVG.php';
+
+    $svg = new EasySVG();
+    $svg->setFont("paris-bold-webfont.svg", 100, '#000000');
+    $svg->addText("Simple text display");
+    $svg->addAttribute("width", "800px");
+    $svg->addAttribute("height", "120px");
+    echo $svg->asXML();
+
+## Advanced usage
+
+    require 'easySVG.php';
+
+    $text = "Simple text display\netc.";
+
+    $svg = new EasySVG();
+    $svg->setFontSVG("paris-bold-webfont.svg");
+    $svg->setFontSize(100);
+    $svg->setFontColor('#000000');
+    $svg->setLineHeight(1.2);
+    $svg->setLetterSpacing(.1);
+    $svg->addText($text);
+    // set width/height according to text
+    list($textWidth, $textHeight) = $svg->textDimensions($text);
+    $svg->addAttribute("width", $textWidth."px");
+    $svg->addAttribute("height", $textHeight."px");
+    echo $svg->asXML();
 
 This will output inline SVG for you to play with. You can **echo** it, **save** it to a file or whatever.
 
@@ -22,11 +42,19 @@ This will output inline SVG for you to play with. You can **echo** it, **save** 
 
 Sets the font attributes. This is a shortcut for :
 
-	$this->setFontSVG($path);
-	$this->setFontSize($size);
-	$this->setFontColor($color);
+    $this->setFontSVG($path);
+    $this->setFontSize($size);
+    $this->setFontColor($color);
 
 These 3 methods are explicit enough, I won't go through these in here.
+
+#### setLineHeight($value)
+
+Adds a CSS-like line-height value. A numeric value (float) where 1 is the line height defined by the font itself.
+
+#### setLetterSpacing($value)
+
+Adds a CSS-like letter-spacing value. A numeric value (float) expressed in em where 1 is the width of the `m` character.
 
 #### addText($text, $x, $y, $attributes=array())
 
@@ -106,5 +134,3 @@ Apply a matrix to a definition. Used to apply any kind of transformations, you s
 ## License
 
 MIT. Please feel free to pull, fork, and so on.
-
-Any questions welcome : kartsims -@- gmail
