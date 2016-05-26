@@ -144,18 +144,21 @@ class EasySVG {
                 if ($name == 'glyph') {
                     $unicode = $z->getAttribute('unicode');
                     $unicode = $this->_utf8ToUnicode($unicode);
-                    $unicode = $unicode[0];
-
-                    $this->font->glyphs[$unicode] = new stdClass();
-                    $this->font->glyphs[$unicode]->horizAdvX = $z->getAttribute('horiz-adv-x');
-                    if (empty($this->font->glyphs[$unicode]->horizAdvX)) {
-                        $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
-                    }
-                    $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
-
-                    // save em value for letter spacing (109 is unicode for the letter 'm')
-                    if ($unicode == '109') {
-                        $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
+                    
+                    if (isset($unicode[0])) {
+                        $unicode = $unicode[0];
+    
+                        $this->font->glyphs[$unicode] = new stdClass();
+                        $this->font->glyphs[$unicode]->horizAdvX = $z->getAttribute('horiz-adv-x');
+                        if (empty($this->font->glyphs[$unicode]->horizAdvX)) {
+                            $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
+                        }
+                        $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
+    
+                        // save em value for letter spacing (109 is unicode for the letter 'm')
+                        if ($unicode == '109') {
+                            $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
+                        }
                     }
                 }
             }
