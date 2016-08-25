@@ -6,33 +6,37 @@ The SVG data produced here is directly extracted from the font .svg file. This *
 
 ## Simple usage
 
-    require 'easySVG.php';
+```php
+require 'easySVG.php';
 
-    $svg = new EasySVG();
-    $svg->setFont("paris-bold-webfont.svg", 100, '#000000');
-    $svg->addText("Simple text display");
-    $svg->addAttribute("width", "800px");
-    $svg->addAttribute("height", "120px");
-    echo $svg->asXML();
+$svg = new EasySVG();
+$svg->setFont("paris-bold-webfont.svg", 100, '#000000');
+$svg->addText("Simple text display");
+$svg->addAttribute("width", "800px");
+$svg->addAttribute("height", "120px");
+echo $svg->asXML();
+```
 
 ## Advanced usage
 
-    require 'easySVG.php';
+```php
+require 'easySVG.php';
 
-    $text = "Simple text display\netc.";
+$text = "Simple text display\netc.";
 
-    $svg = new EasySVG();
-    $svg->setFontSVG("paris-bold-webfont.svg");
-    $svg->setFontSize(100);
-    $svg->setFontColor('#000000');
-    $svg->setLineHeight(1.2);
-    $svg->setLetterSpacing(.1);
-    $svg->addText($text);
-    // set width/height according to text
-    list($textWidth, $textHeight) = $svg->textDimensions($text);
-    $svg->addAttribute("width", $textWidth."px");
-    $svg->addAttribute("height", $textHeight."px");
-    echo $svg->asXML();
+$svg = new EasySVG();
+$svg->setFontSVG("paris-bold-webfont.svg");
+$svg->setFontSize(100);
+$svg->setFontColor('#000000');
+$svg->setLineHeight(1.2);
+$svg->setLetterSpacing(.1);
+$svg->addText($text);
+// set width/height according to text
+list($textWidth, $textHeight) = $svg->textDimensions($text);
+$svg->addAttribute("width", $textWidth."px");
+$svg->addAttribute("height", $textHeight."px");
+echo $svg->asXML();
+```
 
 This will output inline SVG for you to play with. You can **echo** it, **save** it to a file or whatever.
 
@@ -42,9 +46,11 @@ This will output inline SVG for you to play with. You can **echo** it, **save** 
 
 Sets the font attributes. This is a shortcut for :
 
-    $this->setFontSVG($path);
-    $this->setFontSize($size);
-    $this->setFontColor($color);
+```php
+$this->setFontSVG($path);
+$this->setFontSize($size);
+$this->setFontColor($color);
+```
 
 These 3 methods are explicit enough, I won't go through these in here.
 
@@ -60,10 +66,10 @@ Adds a CSS-like letter-spacing value. A numeric value (float) expressed in em wh
 
 Add text to the SVG (will be converted to simple path)
 
-- $text : String UTF-8 encoded
-- $x : X position of the text (starting from left)
-- $y : Y position of the text (starting from top)
-- $attributes (optional) : list of tag attributes
+- `$text` : String UTF-8 encoded
+- `$x` : X position of the text (starting from left)
+- `$y` : Y position of the text (starting from top)
+- `$attributes` (optional) : list of tag attributes
 
 #### asXML()
 
@@ -93,33 +99,33 @@ Applies a scale transformation to definition. This basically applies matrix calc
 
 Returns a SVG-formatted definition of a string. This method is used by addText method.
 
-- $text : String UTF-8 encoded
+- `$text` : String UTF-8 encoded
 
 #### textDimensions($text)
 
 Returns the width and height of a string. This method is also used to set the width/height of the SVG (if none specified).
 
-- $text : String UTF-8 encoded
+- `$text` : String UTF-8 encoded
 
 #### unicodeDef($code)
 
 Returns a SVG-formatted definition of an unicode character.
 
-- $code : Unicode definition (in hex format)
+- `$code` : Unicode definition (in hex format)
 
 #### characterWidth($char, $is_unicode=false)
 
 Returns the width of a character.
 
-- $char : Character
-- $is_unicode : Boolean that tells if the character is a unicode string or a UTF-8 character.
+- `$char` : Character
+- `$is_unicode` : Boolean that tells if the character is a unicode string or a UTF-8 character.
 
 #### addPath($def, $attributes=array())
 
 Add a path to the SVG data
 
-- $def : SVG definition
-- $attributes (optional) : list of tag attributes
+- `$def` : SVG definition
+- `$attributes` (optional) : list of tag attributes
 
 ### Utility methods
 
