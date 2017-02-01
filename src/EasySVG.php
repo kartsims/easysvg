@@ -23,7 +23,7 @@ class EasySVG {
         $this->font->descent = 0;
         $this->font->glyphs = array();
         $this->font->size = 20;
-        $this->font->color = '#000000';
+        $this->font->color = '';
         $this->font->lineHeight = 1;
         $this->font->letterSpacing = 0;
 
@@ -195,7 +195,9 @@ class EasySVG {
             $def = $this->defTranslate($def, $x, $y);
         }
 
-        $attributes['fill'] = $this->font->color;
+        if($this->font->color) {
+            $attributes['fill'] = $this->font->color;
+        }
 
         return $this->addPath($def, $attributes);
     }
