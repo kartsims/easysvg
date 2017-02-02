@@ -68,8 +68,8 @@ class EasySVG {
     /**
      * Set font params (short-hand method)
      * @param string $filepath
-     * @param integer $size   
-     * @param string $color  
+     * @param integer $size
+     * @param string $color
      */
     public function setFont( $filepath, $size, $color = null ) {
         $this->setFontSVG($filepath);
@@ -146,17 +146,17 @@ class EasySVG {
                 if ($name == 'glyph') {
                     $unicode = $z->getAttribute('unicode');
                     $unicode = $this->_utf8ToUnicode($unicode);
-                    
+
                     if (isset($unicode[0])) {
                         $unicode = $unicode[0];
-    
+
                         $this->font->glyphs[$unicode] = new stdClass();
                         $this->font->glyphs[$unicode]->horizAdvX = $z->getAttribute('horiz-adv-x');
                         if (empty($this->font->glyphs[$unicode]->horizAdvX)) {
                             $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
                         }
                         $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
-    
+
                         // save em value for letter spacing (109 is unicode for the letter 'm')
                         if ($unicode == '109') {
                             $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
@@ -228,14 +228,14 @@ class EasySVG {
                 $horizAdvY += $this->font->lineHeight * ( $this->font->ascent + $this->font->descent );
                 continue;
             }
-            
+
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
 
             // transform typo from original SVG format to straight display
             $d = $this->defScale($d, $fontSize, -$fontSize);
             $d = $this->defTranslate($d, $horizAdvX, $horizAdvY*$fontSize*2);
-            
+
             $def[] = $d;
 
             // next letter's position
@@ -325,7 +325,7 @@ class EasySVG {
         return $this->font->glyphs[$letter]->horizAdvX * $fontSize;
     }
 
-    
+
     /**
      * Applies a translate transformation to definition
      * @param  string  $def definition
@@ -336,7 +336,7 @@ class EasySVG {
     public function defTranslate($def, $x=0, $y=0){
         return $this->defApplyMatrix($def, array(1, 0, 0, 1, $x, $y));
     }
-    
+
     /**
      * Applies a translate transformation to definition
      * @param  string  $def    Definition
@@ -357,7 +357,7 @@ class EasySVG {
         $def = $this->defTranslate($def, -$x, -$y);
         return $def;
     }
-    
+
     /**
      * Applies a scale transformation to definition
      * @param  string  $def definition
@@ -398,7 +398,7 @@ class EasySVG {
             if(empty($coords)){
                 continue;
             }
-            
+
             $new_coords = array();
             while(count($coords)>0){
 
@@ -469,7 +469,7 @@ class EasySVG {
                 else{
                     $x = floatval( array_shift($coords) );
                     $y = floatval( array_shift($coords) );
-    
+
                     // add new point's coordinates
                     $current_point = array(
                         $a*$x + $c*$y + $e,
@@ -493,11 +493,11 @@ class EasySVG {
 
 
     /**
-     * 
+     *
      * Short-hand methods
-     * 
+     *
      */
-    
+
 
     /**
      * Return full SVG XML

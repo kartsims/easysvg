@@ -1,6 +1,6 @@
 <?php
 // EasySVG demo page
-require '../src/EasySVG.php'; 
+require '../src/EasySVG.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,7 +13,7 @@ require '../src/EasySVG.php';
         <div class="col-xs-12">
 
             <h1>EasySVG demo</h1>
-            
+
             <?php
             $text = "Simple text display\netc.";
 
@@ -50,7 +50,7 @@ require '../src/EasySVG.php';
             <br/><br/><br/>
             <h2>SVG data</h2>
             <textarea style="width:100%;height:500px;"><?php echo $svg->asXML(); ?></textarea>
-            
+
         </div>
     </div>
 
