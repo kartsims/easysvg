@@ -23,7 +23,7 @@ class EasySVG {
         $this->font->descent = 0;
         $this->font->glyphs = array();
         $this->font->size = 20;
-        $this->font->color = '';
+        $this->font->color = null;
         $this->font->lineHeight = 1;
         $this->font->letterSpacing = 0;
 
@@ -71,10 +71,12 @@ class EasySVG {
      * @param integer $size   
      * @param string $color  
      */
-    public function setFont( $filepath, $size, $color ) {
+    public function setFont( $filepath, $size, $color = null ) {
         $this->setFontSVG($filepath);
         $this->setFontSize($size);
-        $this->setFontColor($color);
+        if ($color) {
+            $this->setFontColor($color);
+        }
     }
 
     /**

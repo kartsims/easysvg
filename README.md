@@ -42,7 +42,7 @@ This will output inline SVG for you to play with. You can **echo** it, **save** 
 
 ## Method reference
 
-#### setFont($path, $size, $color)
+#### setFont($path, $size, $color = null)
 
 Sets the font attributes. This is a shortcut for :
 
