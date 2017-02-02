@@ -10,7 +10,7 @@ The SVG data produced here is directly extracted from the font .svg file. This *
 require 'easySVG.php';
 
 $svg = new EasySVG();
-$svg->setFont("paris-bold-webfont.svg", 100, '#000000');
+$svg->setFont("om_telolet_om-webfont.svg", 100, '#000000');
 $svg->addText("Simple text display");
 $svg->addAttribute("width", "800px");
 $svg->addAttribute("height", "120px");
@@ -25,7 +25,7 @@ require 'easySVG.php';
 $text = "Simple text display\netc.";
 
 $svg = new EasySVG();
-$svg->setFontSVG("paris-bold-webfont.svg");
+$svg->setFontSVG("om_telolet_om-webfont.svg");
 $svg->setFontSize(100);
 $svg->setFontColor('#000000');
 $svg->setLineHeight(1.2);
