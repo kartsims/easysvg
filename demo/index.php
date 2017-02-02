@@ -18,8 +18,8 @@ require '../src/EasySVG.php';
             $text = "Simple text display\netc.";
 
             $svg = new EasySVG();
-            $svg->setFontSVG("paris-bold-webfont.svg");
-            $svg->setFontSize(100);
+            $svg->setFontSVG("om_telolet_om-webfont.svg");
+            $svg->setFontSize(80);
             $svg->setFontColor('#000000');
             $svg->setLineHeight(1.2);
             $svg->setLetterSpacing(.1);
