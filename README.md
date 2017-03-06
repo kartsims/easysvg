@@ -67,8 +67,8 @@ Adds a CSS-like letter-spacing value. A numeric value (float) expressed in em wh
 Add text to the SVG (will be converted to simple path)
 
 - `$text` : String UTF-8 encoded
-- `$x` : X position of the text (starting from left)
-- `$y` : Y position of the text (starting from top)
+- `$x` : X position of the text (starting from left), can be `center` to center the text horizontally
+- `$y` : Y position of the text (starting from top), can be `center` to center the text vertically
 - `$attributes` (optional) : list of tag attributes
 
 #### asXML()

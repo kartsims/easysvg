@@ -185,13 +185,33 @@ class EasySVG {
     /**
      * Add a text to the SVG
      * @param string $def
-     * @param float $x
-     * @param float $y
+     * @param float/string $x
+     * @param float/string $y
      * @param array $attributes
      * @return SimpleXMLElement
      */
     public function addText($text, $x=0, $y=0, $attributes=array()) {
         $def = $this->textDef($text);
+
+        if ($x === 'center' || $y === 'center') {
+          list($textWidth, $textHeight) = $this->textDimensions($text);
+        }
+
+        // center horizontally
+        if ($x === 'center') {
+            if ($this->svg['width'] === NULL) {
+                throw new Error('SVG width has to be set to center the text horizontally');
+            }
+            $x = (intval($this->svg['width']) - $textWidth) / 2;
+        }
+
+        // center vertically
+        if ($y === 'center') {
+            if ($this->svg['height'] === NULL) {
+                throw new Error('SVG height has to be set to center the text vertically');
+            }
+            $y = (intval($this->svg['height']) - $textHeight) / 2;
+        }
 
         if($x!=0 || $y!=0){
             $def = $this->defTranslate($def, $x, $y);
