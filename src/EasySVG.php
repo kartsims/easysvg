@@ -32,6 +32,8 @@ class EasySVG {
 
     public function clearSVG() {
         $this->svg = new SimpleXMLElement('<svg></svg>');
+        $this->svg->addAttribute('version', '1.1');
+        $this->svg->addAttribute('xmlns', 'http://www.w3.org/2000/svg');
     }
 
     /**
