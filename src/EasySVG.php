@@ -244,6 +244,11 @@ class EasySVG {
 
             $letter = $text[$i];
 
+            //ignore this glyph instead of throwing an error if the font does not define it
+            if(!array_key_exists($letter, $this->font->glyphs)){
+                continue;
+            }
+
             // line break support (10 is unicode for linebreak)
             if($letter==10){
                 $horizAdvX = 0;
@@ -287,6 +292,11 @@ class EasySVG {
         for($i = 0; $i < count($text); $i++) {
 
             $letter = $text[$i];
+
+            //ignore this glyph instead of throwing an error if the font does not define it
+            if(!array_key_exists($letter, $this->font->glyphs)){
+                continue;
+            }
 
             // line break support (10 is unicode for linebreak)
             if($letter==10){
