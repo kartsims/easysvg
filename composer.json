@@ -13,6 +13,9 @@
     "source": "https://github.com/kartsims/easysvg/tree/master",
     "issues": "https://github.com/kartsims/easysvg/issues"
   },
+  "autoload": {
+    "classmap": ["src/"]
+  },
   "minimum-stability": "beta",
   "require": {
     "php": ">=5.3.0"
