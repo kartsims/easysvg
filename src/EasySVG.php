@@ -2,7 +2,8 @@
 /**
  * EasySVG - Generate SVG from PHP
  * @author Simon Tarchichi <kartsims@gmail.com>
- * @version 0.1b
+ * @author Mikhail Genin <kosmopoisk@gmail.com>
+ * @version 0.2b
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
  * @see http://stackoverflow.com/questions/14684846/flattening-svg-matrix-transforms-in-inkscape
@@ -36,6 +37,57 @@ class EasySVG {
         $this->svg->addAttribute('xmlns', 'http://www.w3.org/2000/svg');
     }
 
+    private function utf8_ord($chr)
+    {
+        $ord0 = ord($chr);
+        if ($ord0 >= 0 && $ord0 <= 127)
+            return $ord0;
+        if (!isset($chr[1]))
+        {
+            trigger_error('Short sequence - at least 2 bytes expected, only 1 seen');
+            return false;
+        }
+        $ord1 = ord($chr[1]);
+        if ($ord0 >= 192 && $ord0 <= 223)
+            return ($ord0 - 192) * 64 + ($ord1 - 128);
+        if (!isset($chr[2]))
+        {
+            trigger_error('Short sequence - at least 3 bytes expected, only 2 seen');
+            return false;
+        }
+        $ord2 = ord($chr[2]);
+        if ($ord0 >= 224 && $ord0 <= 239)
+            return ($ord0 - 224) * 4096 + ($ord1 - 128) * 64 + ($ord2 - 128);
+        if (!isset($chr[3]))
+        {
+            trigger_error('Short sequence - at least 4 bytes expected, only 3 seen');
+            return false;
+        }
+        $ord3 = ord($chr[3]);
+        if ($ord0 >= 240 && $ord0 <= 247)
+            return ($ord0 - 240) * 262144 + ($ord1 - 128) * 4096 + ($ord2 - 128) * 64 + ($ord3 - 128);
+        if (!isset($chr[4]))
+        {
+            trigger_error('Short sequence - at least 5 bytes expected, only 4 seen');
+            return false;
+        }
+        $ord4 = ord($chr[4]);
+        if ($ord0 >= 248 && $ord0 <= 251)
+            return ($ord0 - 248) * 16777216 + ($ord1 - 128) * 262144 + ($ord2 - 128) * 4096 + ($ord3 - 128) * 64 + ($ord4 - 128);
+        if (!isset($chr[5]))
+        {
+            trigger_error('Short sequence - at least 6 bytes expected, only 5 seen');
+            return false;
+        }
+        if ($ord0 >= 252 && $ord0 <= 253)
+            return ($ord0 - 252) * 1073741824 + ($ord1 - 128) * 16777216 + ($ord2 - 128) * 262144 + ($ord3 - 128) * 4096 + ($ord4 - 128) * 64 + (ord($chr[5]) - 128);
+        if ($ord0 >= 254 && $ord0 <= 255)
+        {
+            trigger_error('Invalid UTF-8 with surrogate ordinal '.$ord0);
+            return false;
+        }
+    }
+
     /**
      * Function takes UTF-8 encoded string and returns unicode number for every character.
      * @param  string $str
@@ -43,25 +95,10 @@ class EasySVG {
      */
     private function _utf8ToUnicode( $str ) {
         $unicode = array();
-        $values = array();
-        $lookingFor = 1;
 
-        for ($i = 0; $i < strlen( $str ); $i++ ) {
-            $thisValue = ord( $str[ $i ] );
-            if ( $thisValue < 128 ) $unicode[] = $thisValue;
-            else {
-                if ( count( $values ) == 0 ) $lookingFor = ( $thisValue < 224 ) ? 2 : 3;
-                $values[] = $thisValue;
-                if ( count( $values ) == $lookingFor ) {
-                    $number = ( $lookingFor == 3 ) ?
-                        ( ( $values[0] % 16 ) * 4096 ) + ( ( $values[1] % 64 ) * 64 ) + ( $values[2] % 64 ):
-                        ( ( $values[0] % 32 ) * 64 ) + ( $values[1] % 64 );
-
-                    $unicode[] = $number;
-                    $values = array();
-                    $lookingFor = 1;
-                }
-            }
+        for ($i = 0; $i < mb_strlen( $str ); $i++ ) {
+            $thisValue = $this->utf8_ord(mb_substr($str,$i,1) ); //in PHP 7.2.0+ pls use mb_ord !
+            $unicode[] = $thisValue;
         }
 
         return $unicode;
@@ -196,7 +233,7 @@ class EasySVG {
         $def = $this->textDef($text);
 
         if ($x === 'center' || $y === 'center') {
-          list($textWidth, $textHeight) = $this->textDimensions($text);
+            list($textWidth, $textHeight) = $this->textDimensions($text);
         }
 
         // center horizontally
