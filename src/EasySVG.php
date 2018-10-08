@@ -244,17 +244,18 @@ class EasySVG {
 
             $letter = $text[$i];
 
-            //ignore this glyph instead of throwing an error if the font does not define it
-            if(!array_key_exists($letter, $this->font->glyphs)){
-                continue;
-            }
-
             // line break support (10 is unicode for linebreak)
             if($letter==10){
                 $horizAdvX = 0;
                 $horizAdvY += $this->font->lineHeight * ( $this->font->ascent + $this->font->descent );
                 continue;
             }
+
+            //ignore this glyph instead of throwing an error if the font does not define it
+            if(!array_key_exists($letter, $this->font->glyphs)){
+                continue;
+            }
+
 
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
@@ -293,11 +294,6 @@ class EasySVG {
 
             $letter = $text[$i];
 
-            //ignore this glyph instead of throwing an error if the font does not define it
-            if(!array_key_exists($letter, $this->font->glyphs)){
-                continue;
-            }
-
             // line break support (10 is unicode for linebreak)
             if($letter==10){
                 $width = $lineWidth>$width ? $lineWidth : $width;
@@ -305,6 +301,13 @@ class EasySVG {
                 $lineWidth = 0;
                 continue;
             }
+
+            //ignore this glyph instead of throwing an error if the font does not define it
+            if(!array_key_exists($letter, $this->font->glyphs)){
+                continue;
+            }
+
+
 
             $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
         }
