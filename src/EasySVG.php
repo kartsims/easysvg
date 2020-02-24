@@ -22,8 +22,9 @@ class EasySVG {
         $this->font->ascent = 0;
         $this->font->descent = 0;
         $this->font->glyphs = array();
+        $this->font->hkern = array();
+        $this->font->useKerning = true;
         $this->font->size = 20;
-        $this->font->color = null;
         $this->font->lineHeight = 1;
         $this->font->letterSpacing = 0;
 
@@ -88,6 +89,15 @@ class EasySVG {
      */
     public function setFontSize( $size ) {
         $this->font->size = $size;
+    }
+
+    /**
+     * Set kerning support flag
+     * @param bool $bool
+     * @return void
+     */
+    public function setUseKerning( $bool ) {
+        $this->font->useKerning = $bool;
     }
 
     /**
@@ -165,6 +175,16 @@ class EasySVG {
                         }
                     }
                 }
+
+                if ($name == 'hkern') {
+                    $u1 = $this->_utf8ToUnicode($z->getAttribute('u1'));
+                    $u2 = $this->_utf8ToUnicode($z->getAttribute('u2'));
+                    if (isset($u1[0]) and isset ($u2[0])) {
+                        $k = $z->getAttribute('k');
+                        $this->font->hkern[$u1[0]][$u2[0]] = $k;
+                    }
+                }
+
             }
         }
     }
@@ -240,6 +260,8 @@ class EasySVG {
         $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
         $text = $this->_utf8ToUnicode($text);
 
+        $prev_letter = '';
+
         for($i = 0; $i < count($text); $i++) {
 
             $letter = $text[$i];
@@ -256,6 +278,13 @@ class EasySVG {
                 continue;
             }
 
+            // kern
+            if ($this->font->useKerning) {
+                if (isset ($this->font->hkern[$prev_letter][$letter])) {
+                    $horizAdvX -= $this->font->hkern[$prev_letter][$letter] * $fontSize;
+                }
+            }
+
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
 
@@ -267,6 +296,9 @@ class EasySVG {
 
             // next letter's position
             $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
+
+            $prev_letter = $letter;
+
         }
         return implode(' ', $def);
     }
