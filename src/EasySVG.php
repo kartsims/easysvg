@@ -321,6 +321,8 @@ class EasySVG {
         $width = 0;
         $height = $lineHeight;
 
+        $prev_letter = '';
+
         for($i = 0; $i < count($text); $i++) {
 
             $letter = $text[$i];
@@ -339,6 +341,16 @@ class EasySVG {
             }
 
             $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
+
+            // kern
+            if ($this->font->useKerning) {
+                if (isset ($this->font->hkern[$prev_letter][$letter])) {
+                    $lineWidth -= $this->font->hkern[$prev_letter][$letter] * $fontSize;
+                }
+            }
+
+            $prev_letter = $letter;
+
         }
 
         // only keep the widest line's width
@@ -577,6 +589,6 @@ class EasySVG {
      * @param string $value
      */
     public function addAttribute($key, $value){
-        return $this->svg->addAttribute($key, $value);
+        return @$this->svg->addAttribute($key, $value);
     }
 }
