@@ -23,7 +23,7 @@ class EasySVG {
         $this->font->descent = 0;
         $this->font->glyphs = array();
         $this->font->hkern = array();
-        $this->font->useKerning = true;
+        $this->font->useKerning = false;
         $this->font->size = 20;
         $this->font->color = null;
         $this->font->lineHeight = 1;
