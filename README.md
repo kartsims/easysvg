@@ -30,6 +30,7 @@ $svg->setFontSize(100);
 $svg->setFontColor('#000000');
 $svg->setLineHeight(1.2);
 $svg->setLetterSpacing(.1);
+$svg->setUseKerning(true);
 $svg->addText($text);
 // set width/height according to text
 list($textWidth, $textHeight) = $svg->textDimensions($text);
@@ -55,7 +56,8 @@ $this->setFontColor($color);
 These 3 methods are explicit enough, I won't go through these in here.
 
 #### setUseKerning($bool)
-Use SVG font kerning pairs. Default is `false`.
+
+Use SVG font [kerning](https://en.wikipedia.org/wiki/Kerning) pairs. Default is `false`.
 
 #### setLineHeight($value)
 
