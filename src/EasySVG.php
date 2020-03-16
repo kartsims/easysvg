@@ -22,6 +22,8 @@ class EasySVG {
         $this->font->ascent = 0;
         $this->font->descent = 0;
         $this->font->glyphs = array();
+        $this->font->hkern = array();
+        $this->font->useKerning = false;
         $this->font->size = 20;
         $this->font->color = null;
         $this->font->lineHeight = 1;
@@ -88,6 +90,15 @@ class EasySVG {
      */
     public function setFontSize( $size ) {
         $this->font->size = $size;
+    }
+
+    /**
+     * Set kerning support flag
+     * @param bool $bool
+     * @return void
+     */
+    public function setUseKerning( $bool ) {
+      $this->font->useKerning = $bool;
     }
 
     /**
@@ -165,6 +176,15 @@ class EasySVG {
                         }
                     }
                 }
+                if ($name == 'hkern') {
+                  $u1 = $this->_utf8ToUnicode($z->getAttribute('u1'));
+                  $u2 = $this->_utf8ToUnicode($z->getAttribute('u2'));
+                  if (isset($u1[0]) and isset ($u2[0])) {
+                    $k = $z->getAttribute('k');
+                    $this->font->hkern[$u1[0]][$u2[0]] = $k;
+                  }
+                }
+
             }
         }
     }
@@ -240,9 +260,18 @@ class EasySVG {
         $fontSize = floatval($this->font->size) / $this->font->unitsPerEm;
         $text = $this->_utf8ToUnicode($text);
 
+        $prevLetter = '';
+
         for($i = 0; $i < count($text); $i++) {
 
             $letter = $text[$i];
+
+            // kern
+            if ($this->font->useKerning) {
+              if (isset ($this->font->hkern[$prevLetter][$letter])) {
+                $horizAdvX -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
+              }
+            }
 
             //ignore this glyph instead of throwing an error if the font does not define it
             if(!array_key_exists($letter, $this->font->glyphs)){
@@ -267,6 +296,8 @@ class EasySVG {
 
             // next letter's position
             $horizAdvX += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
+
+            $prevLetter = $letter;
         }
         return implode(' ', $def);
     }
@@ -289,6 +320,8 @@ class EasySVG {
         $width = 0;
         $height = $lineHeight;
 
+        $prevLetter = '';
+
         for($i = 0; $i < count($text); $i++) {
 
             $letter = $text[$i];
@@ -307,7 +340,16 @@ class EasySVG {
             }
 
             $lineWidth += $this->font->glyphs[$letter]->horizAdvX * $fontSize + $this->font->em * $this->font->letterSpacing * $fontSize;
-        }
+
+            // kern
+            if ($this->font->useKerning) {
+              if (isset ($this->font->hkern[$prevLetter][$letter])) {
+                $lineWidth -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
+              }
+            }
+
+            $prevLetter = $letter;
+          }
 
         // only keep the widest line's width
         $width = $lineWidth>$width ? $lineWidth : $width;

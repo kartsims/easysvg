@@ -23,6 +23,7 @@ require '../src/EasySVG.php';
             $svg->setFontColor('#000000');
             $svg->setLineHeight(1.2);
             $svg->setLetterSpacing(.1);
+            $svg->setUseKerning(true);
             $svg->addText($text);
             // set width/height according to text
             list($textWidth, $textHeight) = $svg->textDimensions($text);
@@ -41,6 +42,7 @@ require '../src/EasySVG.php';
                 $svg->setFontColor('#000000');
                 $svg->setLineHeight(1.2);
                 $svg->setLetterSpacing(.1);
+                $svg->setUseKerning(true);
                 $svg->addText($text);
                 // set width/height according to text
                 list($textWidth, $textHeight) = $svg->textDimensions($text);
@@ -62,6 +64,7 @@ require '../src/EasySVG.php';
             $svg->setFontSize(80);
             $svg->setFontColor('#000000');
             $svg->setLetterSpacing(.1);
+            $svg->setUseKerning(true);
             $svg->addText($text, "center", "center");
             echo $svg->asXML();
             ?>
@@ -78,6 +81,7 @@ require '../src/EasySVG.php';
                 $svg->setFontSize(80);
                 $svg->setFontColor('#000000');
                 $svg->setLetterSpacing(.1);
+                $svg->setUseKerning(true);
                 $svg->addText($text, "center", "center");
                 echo $svg->asXML();
             </pre>

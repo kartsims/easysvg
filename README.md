@@ -54,6 +54,9 @@ $this->setFontColor($color);
 
 These 3 methods are explicit enough, I won't go through these in here.
 
+#### setUseKerning($bool)
+Use SVG font kerning pairs. Default is `false`.
+
 #### setLineHeight($value)
 
 Adds a CSS-like line-height value. A numeric value (float) where 1 is the line height defined by the font itself.
