@@ -98,7 +98,7 @@ class EasySVG {
      * @return void
      */
     public function setUseKerning( $bool ) {
-      $this->font->useKerning = $bool;
+        $this->font->useKerning = $bool;
     }
 
     /**
@@ -177,12 +177,12 @@ class EasySVG {
                     }
                 }
                 if ($name == 'hkern') {
-                  $u1 = $this->_utf8ToUnicode($z->getAttribute('u1'));
-                  $u2 = $this->_utf8ToUnicode($z->getAttribute('u2'));
-                  if (isset($u1[0]) and isset ($u2[0])) {
-                    $k = $z->getAttribute('k');
-                    $this->font->hkern[$u1[0]][$u2[0]] = $k;
-                  }
+                    $u1 = $this->_utf8ToUnicode($z->getAttribute('u1'));
+                    $u2 = $this->_utf8ToUnicode($z->getAttribute('u2'));
+                    if (isset($u1[0]) and isset ($u2[0])) {
+                        $k = $z->getAttribute('k');
+                        $this->font->hkern[$u1[0]][$u2[0]] = $k;
+                    }
                 }
 
             }
@@ -216,7 +216,7 @@ class EasySVG {
         $def = $this->textDef($text);
 
         if ($x === 'center' || $y === 'center') {
-          list($textWidth, $textHeight) = $this->textDimensions($text);
+            list($textWidth, $textHeight) = $this->textDimensions($text);
         }
 
         // center horizontally
@@ -268,9 +268,9 @@ class EasySVG {
 
             // kern
             if ($this->font->useKerning) {
-              if (isset ($this->font->hkern[$prevLetter][$letter])) {
-                $horizAdvX -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
-              }
+                if (isset ($this->font->hkern[$prevLetter][$letter])) {
+                    $horizAdvX -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
+                }
             }
 
             //ignore this glyph instead of throwing an error if the font does not define it
@@ -343,13 +343,13 @@ class EasySVG {
 
             // kern
             if ($this->font->useKerning) {
-              if (isset ($this->font->hkern[$prevLetter][$letter])) {
-                $lineWidth -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
-              }
+                if (isset ($this->font->hkern[$prevLetter][$letter])) {
+                    $lineWidth -= $this->font->hkern[$prevLetter][$letter] * $fontSize;
+                }
             }
 
             $prevLetter = $letter;
-          }
+        }
 
         // only keep the widest line's width
         $width = $lineWidth>$width ? $lineWidth : $width;
