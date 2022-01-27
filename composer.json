@@ -2,7 +2,7 @@
   "name": "kartsims/easysvg",
   "description": "PHP library to generate SVG XML",
   "license": "MIT",
-  "homepage": "http://kartsims.github.com/easysvg/",
+  "homepage": "https://github.com/kartsims/easysvg",
   "authors": [
     {
       "name": "Simon Tarchichi",
@@ -21,5 +21,8 @@
     "php": ">=7.4.0",
     "ext-simplexml": "*",
     "ext-xmlreader": "*"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.5"
   }
 }
