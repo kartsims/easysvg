@@ -45,11 +45,15 @@ class EasySVG
 
     /**
      * Function takes UTF-8 encoded string and returns unicode number for every character.
-     * @param string $str
+     * @param null|string $str
      * @return array
      */
-    private function _utf8ToUnicode(string $str): array
+    private function _utf8ToUnicode(?string $str): array
     {
+        if ($str === null) {
+            return [];
+        }
+
         $unicode = [];
         $values = [];
         $lookingFor = 1;
@@ -174,21 +178,24 @@ class EasySVG
 
                 if ($name === 'glyph') {
                     $unicode = $z->getAttribute('unicode');
-                    $unicode = $this->_utf8ToUnicode($unicode);
 
-                    if (isset($unicode[0])) {
-                        $unicode = $unicode[0];
+                    if (isset($unicode)) {
+                        $unicode = $this->_utf8ToUnicode($unicode);
 
-                        $this->font->glyphs[$unicode] = new stdClass();
-                        $this->font->glyphs[$unicode]->horizAdvX = $z->getAttribute('horiz-adv-x');
-                        if (empty($this->font->glyphs[$unicode]->horizAdvX)) {
-                            $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
-                        }
-                        $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
+                        if (isset($unicode[0])) {
+                            $unicode = $unicode[0];
 
-                        // save em value for letter spacing (109 is unicode for the letter 'm')
-                        if ($unicode === '109') {
-                            $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
+                            $this->font->glyphs[$unicode] = new stdClass();
+                            $this->font->glyphs[$unicode]->horizAdvX = $z->getAttribute('horiz-adv-x');
+                            if (empty($this->font->glyphs[$unicode]->horizAdvX)) {
+                                $this->font->glyphs[$unicode]->horizAdvX = $this->font->horizAdvX;
+                            }
+                            $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
+
+                            // save em value for letter spacing (109 is unicode for the letter 'm')
+                            if ($unicode === '109') {
+                                $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
+                            }
                         }
                     }
                 }
