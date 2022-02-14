@@ -193,7 +193,7 @@ class EasySVG
                             $this->font->glyphs[$unicode]->d = $z->getAttribute('d');
 
                             // save em value for letter spacing (109 is unicode for the letter 'm')
-                            if ($unicode === '109') {
+                            if ($unicode === 109) {
                                 $this->font->em = $this->font->glyphs[$unicode]->horizAdvX;
                             }
                         }
