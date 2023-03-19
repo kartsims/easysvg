@@ -313,6 +313,7 @@ class EasySVG
 
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
+            $d = $d?$d:'';
 
             // transform typo from original SVG format to straight display
             $d = $this->defScale($d, $fontSize, -$fontSize);
