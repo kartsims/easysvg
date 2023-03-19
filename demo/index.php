@@ -27,10 +27,8 @@ require '../src/EasySVG.php';
             $svg->addText($text);
             // set width/height according to text
 
-            $file = tmpfile();
-            fwrite($file, $svg->asXML());
-            $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
-            echo $output;
+            $svg->setInkScapePath('inkscape');
+            echo $svg->getResizedXML();
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
@@ -47,10 +45,8 @@ require '../src/EasySVG.php';
                 $svg->addText($text);
                 // set width/height according to text
 
-                $file = tmpfile();
-                fwrite($file, $svg->asXML());
-                $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
-                echo $output;
+                $svg->setInkScapePath('inkscape');
+                echo $svg->getResizedXML();
             </pre>
             <br/><br/><br/>
 
@@ -68,10 +64,8 @@ require '../src/EasySVG.php';
             $svg->setLetterSpacing(.1);
             $svg->setUseKerning(true);
             $svg->addText($text, "center", "center");
-            $file = tmpfile();
-            fwrite($file, $svg->asXML());
-            $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
-            echo $output;
+            $svg->setInkScapePath('inkscape');
+            echo $svg->getResizedXML();
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
@@ -88,10 +82,8 @@ require '../src/EasySVG.php';
                 $svg->setLetterSpacing(.1);
                 $svg->setUseKerning(true);
                 $svg->addText($text, "center", "center");
-                $file = tmpfile();
-                fwrite($file, $svg->asXML());
-                $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
-                echo $output;
+                $svg->setInkScapePath('inkscape');
+                echo $svg->getResizedXML();
             </pre>
             <br/><br/><br/>
         </div>
