@@ -26,10 +26,11 @@ require '../src/EasySVG.php';
             $svg->setUseKerning(true);
             $svg->addText($text);
             // set width/height according to text
-            list($textWidth, $textHeight) = $svg->textDimensions($text);
-            $svg->addAttribute("width", $textWidth."px");
-            $svg->addAttribute("height", $textHeight."px");
-            echo $svg->asXML();
+
+            $file = tmpfile();
+            fwrite($file, $svg->asXML());
+            $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
+            echo $output;
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
@@ -45,10 +46,11 @@ require '../src/EasySVG.php';
                 $svg->setUseKerning(true);
                 $svg->addText($text);
                 // set width/height according to text
-                list($textWidth, $textHeight) = $svg->textDimensions($text);
-                $svg->addAttribute("width", $textWidth."px");
-                $svg->addAttribute("height", $textHeight."px");
-                echo $svg->asXML();
+
+                $file = tmpfile();
+                fwrite($file, $svg->asXML());
+                $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
+                echo $output;
             </pre>
             <br/><br/><br/>
 
@@ -66,12 +68,15 @@ require '../src/EasySVG.php';
             $svg->setLetterSpacing(.1);
             $svg->setUseKerning(true);
             $svg->addText($text, "center", "center");
-            echo $svg->asXML();
+            $file = tmpfile();
+            fwrite($file, $svg->asXML());
+            $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
+            echo $output;
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
             <pre>
-                $text = "Simple text display\netc.";
+                $text = "Simple text";
 
                 $svg = new EasySVG();
                 $svg->addAttribute("width", "600px");
@@ -83,7 +88,10 @@ require '../src/EasySVG.php';
                 $svg->setLetterSpacing(.1);
                 $svg->setUseKerning(true);
                 $svg->addText($text, "center", "center");
-                echo $svg->asXML();
+                $file = tmpfile();
+                fwrite($file, $svg->asXML());
+                $output = shell_exec('inkscape --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
+                echo $output;
             </pre>
             <br/><br/><br/>
         </div>
