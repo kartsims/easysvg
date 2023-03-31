@@ -390,6 +390,10 @@ class EasySVG
 
         // extract character definition
         $d = $this->font->glyphs[hexdec($unicode)]->d;
+        // handle if d attribute is not set in corresponding glyph
+        if(is_null($d)) {
+            $d = "";
+        }
 
         // transform typo from original SVG format to straight display
         $d = $this->defScale($d, $fontSize, -$fontSize);
