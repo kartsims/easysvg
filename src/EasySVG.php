@@ -15,6 +15,7 @@ class EasySVG
 {
     protected stdClass $font;
     protected SimpleXMLElement $svg;
+    private $inkScapePath;
 
     public function __construct()
     {
@@ -313,6 +314,7 @@ class EasySVG
 
             // extract character definition
             $d = $this->font->glyphs[$letter]->d;
+            $d = $d?$d:'';
 
             // transform typo from original SVG format to straight display
             $d = $this->defScale($d, $fontSize, -$fontSize);
@@ -614,5 +616,32 @@ class EasySVG
     public function addAttribute(string $key, string $value): void
     {
         $this->svg->addAttribute($key, $value);
+    }
+
+    /**
+     * Sets the path to the InkScape command so it can be used
+     * to resize the SVG output
+     * @param string $inkScapePath
+     */
+    public function setInkScapePath(string $inkScapePath): void
+    {
+        $this->inkScapePath = $inkScapePath;
+    }
+
+
+    /**
+     * Return full SVG XML exported from InkScape
+     * @return string
+     */
+    public function getResizedXML(): string
+    {
+        if($this->inkScapePath){
+            $file = tmpfile();
+            fwrite($file, $this->asXML());
+            $output = shell_exec($this->inkScapePath . ' --export-type=svg -o - --export-area-drawing ' . stream_get_meta_data($file)['uri']);
+            return $output;
+        } else{
+            throw new Exception('inkScapePath not set');
+        }
     }
 }

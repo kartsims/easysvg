@@ -26,10 +26,9 @@ require '../src/EasySVG.php';
             $svg->setUseKerning(true);
             $svg->addText($text);
             // set width/height according to text
-            list($textWidth, $textHeight) = $svg->textDimensions($text);
-            $svg->addAttribute("width", $textWidth."px");
-            $svg->addAttribute("height", $textHeight."px");
-            echo $svg->asXML();
+
+            $svg->setInkScapePath('inkscape');
+            echo $svg->getResizedXML();
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
@@ -45,10 +44,9 @@ require '../src/EasySVG.php';
                 $svg->setUseKerning(true);
                 $svg->addText($text);
                 // set width/height according to text
-                list($textWidth, $textHeight) = $svg->textDimensions($text);
-                $svg->addAttribute("width", $textWidth."px");
-                $svg->addAttribute("height", $textHeight."px");
-                echo $svg->asXML();
+
+                $svg->setInkScapePath('inkscape');
+                echo $svg->getResizedXML();
             </pre>
             <br/><br/><br/>
 
@@ -66,12 +64,13 @@ require '../src/EasySVG.php';
             $svg->setLetterSpacing(.1);
             $svg->setUseKerning(true);
             $svg->addText($text, "center", "center");
-            echo $svg->asXML();
+            $svg->setInkScapePath('inkscape');
+            echo $svg->getResizedXML();
             ?>
             <br/><br/><br/>
             <h2>PHP code</h2>
             <pre>
-                $text = "Simple text display\netc.";
+                $text = "Simple text";
 
                 $svg = new EasySVG();
                 $svg->addAttribute("width", "600px");
@@ -83,7 +82,8 @@ require '../src/EasySVG.php';
                 $svg->setLetterSpacing(.1);
                 $svg->setUseKerning(true);
                 $svg->addText($text, "center", "center");
-                echo $svg->asXML();
+                $svg->setInkScapePath('inkscape');
+                echo $svg->getResizedXML();
             </pre>
             <br/><br/><br/>
         </div>
