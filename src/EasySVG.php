@@ -244,6 +244,17 @@ class EasySVG
      */
     public function addText(string $text, $x = 0, $y = 0, array $attributes=[]): ?SimpleXMLElement
     {
+
+        // Support multiple lines of text
+        $lines = preg_split('/$\R?^/m', $text);
+        if (count($lines) > 1) {
+            foreach ($lines as $i => $line) {
+                $this->addText(trim($line), $x, $y);
+                $y = $y + (int)($this->font->size * 1.2);
+            }
+            return null;
+        }
+
         $def = $this->textDef($text);
 
         if ($x === 'center' || $y === 'center') {
@@ -312,7 +323,7 @@ class EasySVG
             }
 
             // extract character definition
-            $d = $this->font->glyphs[$letter]->d;
+            $d = (string) $this->font->glyphs[$letter]->d;
 
             // transform typo from original SVG format to straight display
             $d = $this->defScale($d, $fontSize, -$fontSize);
